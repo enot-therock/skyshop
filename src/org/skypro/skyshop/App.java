@@ -4,41 +4,44 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.Product;
 
 public class App {
+
     public static void main(String[] args) {
+
+        Product product1 = new Product("Торт", 598);
+        Product product2 = new Product("Мясо", 1246);
+        Product product3 = new Product("Кофе", 813);
+        Product product4 = new Product("Сыр", 567);
+        Product product5 = new Product("Молоко", 81);
+        Product product6 = new Product("Конфеты", 236);
+        Product product7 = new Product("Вафли", 44);
+
         ProductBasket productBasket = new ProductBasket();
 
-        productBasket.addProduct("Яйцо", 179); // 1. Добавление продукта в корзину
-        productBasket.addProduct("Мясо", 1467);
-        productBasket.addProduct("Кофе", 862);
-        productBasket.addProduct("Шоколад", 81);
-        // productBasket.addProduct("Колбаса", 236); // 2. Добавление продукта в заполненную корзину
+        productBasket.addProduct(product1);
+        productBasket.addProduct(product3);
+        productBasket.addProduct(product4);
+        productBasket.addProduct(product2);
+        productBasket.addProduct(product7);
 
-        System.out.println();
-        productBasket.printProductBasket(); // 3. Печать содержимого корзины
+        //productBasket.addProduct(product6);
 
-        System.out.println();
-        productBasket.allCost(); // Получение стоимости корзины с несколькими товарами
-        System.out.println();
-
-        productBasket.addProduct("Какао", 781);
         productBasket.printProductBasket();
-
         System.out.println();
-        productBasket.searchProduct("яйцо"); // Поиск товара, который есть в корзине
 
+        System.out.println("Общая стоимость корзины: " + productBasket.allCost());
         System.out.println();
-        productBasket.searchProduct("кабачок"); // Поиск товара, которого нет в корзине
 
+        productBasket.searchProduct("сыр");
         System.out.println();
-        productBasket.deleteAll(); // Очистка корзины
 
-        // productBasket.printProductBasket(); // 3. Печать содержимого пустой корзины
-
+        productBasket.searchProduct("молоко");
         System.out.println();
-        productBasket.allCost(); // Получение стоимости пустой корзины
 
+        productBasket.deleteAll();
+        productBasket.printProductBasket();
+        System.out.println("Общая стоимость корзины: " + productBasket.allCost());
         System.out.println();
-        productBasket.searchProduct("яйцо"); // Поиск товара по имени в пустой корзине
 
+        productBasket.searchProduct("вафли");
     }
 }

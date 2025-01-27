@@ -11,15 +11,14 @@ public class ProductBasket {
         this.products = new Product[5];
     }
 
-    public void addProduct(String productName, int cost) {
+    public void addProduct(Product product) {
         if (size >= products.length) {
             throw new IllegalArgumentException("Невозможно добавить новый продукт");
         }
-        Product product = new Product(productName, cost);
         products[size++] = product;
     }
 
-    public void allCost() {
+    public int allCost() {
         int allCost = 0;
         for (int i = 0; i < products.length; i++) {
             if (products[i] == null) {
@@ -27,7 +26,7 @@ public class ProductBasket {
             }
             allCost += products[i].getCost();
         }
-        System.out.println(allCost);
+        return allCost;
     }
 
     public void printProductBasket() {
@@ -59,6 +58,8 @@ public class ProductBasket {
     public void deleteAll() {
         for (int i = 0; i < size; i++) {
             products[i] = null;
+            size = 0;
         }
     }
+
 }
