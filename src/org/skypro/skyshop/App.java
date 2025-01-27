@@ -23,7 +23,7 @@ public class App {
         productBasket.addProduct(product2);
         productBasket.addProduct(product7);
 
-        //productBasket.addProduct(product6);
+        productBasket.addProduct(product6);
 
         productBasket.printProductBasket();
         System.out.println();
