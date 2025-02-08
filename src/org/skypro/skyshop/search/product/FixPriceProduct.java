@@ -1,17 +1,16 @@
-package org.skypro.skyshop.product;
+package org.skypro.skyshop.search.product;
 
-public class SimpleProduct extends Product {
+public class FixPriceProduct extends Product {
 
-    protected int price;
+    protected final int FIX_PRICE = 99;
 
-    public SimpleProduct(String productName, int price) {
+    public FixPriceProduct(String productName) {
         super(productName);
-        this.price = price;
     }
 
     @Override
     public int getPrice() {
-        return price;
+        return FIX_PRICE;
     }
 
     @Override
@@ -21,6 +20,6 @@ public class SimpleProduct extends Product {
 
     @Override
     public boolean isSpecial() {
-        return false;
+        return true;
     }
 }

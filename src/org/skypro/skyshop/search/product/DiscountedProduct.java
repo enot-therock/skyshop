@@ -1,4 +1,4 @@
-package org.skypro.skyshop.product;
+package org.skypro.skyshop.search.product;
 
 public class DiscountedProduct extends Product {
 
@@ -18,7 +18,7 @@ public class DiscountedProduct extends Product {
 
     @Override
     public String toString() {
-        return getProduct() + ": " + getPrice() + "(" + discount + ")";
+        return getProduct() + ": " + getPrice() + " (" + discount + " %)";
     }
 
     @Override
