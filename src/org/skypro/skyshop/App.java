@@ -8,6 +8,8 @@ import org.skypro.skyshop.search.product.DiscountedProduct;
 import org.skypro.skyshop.search.product.FixPriceProduct;
 import org.skypro.skyshop.search.product.SimpleProduct;
 
+import java.util.Arrays;
+
 public class App {
 
     public static void main(String[] args) {
@@ -85,5 +87,7 @@ public class App {
         searchEngine.search("ТОРТ");
         searchEngine.search("СнИкеРс");
 
+        System.out.println(Arrays.toString(searchEngine.search("ТоРт")));
+        System.out.println(Arrays.toString(searchEngine.search("СниКЕрс")));
     }
 }

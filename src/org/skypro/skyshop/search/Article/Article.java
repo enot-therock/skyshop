@@ -6,8 +6,8 @@ import java.util.Objects;
 
 public class Article implements Searchable {
 
-    private String nameArticle;
-    private String textArticle;
+    private final String nameArticle;
+    private final String textArticle;
 
     public Article(String nameArticle, String textArticle) {
         this.nameArticle = nameArticle;
@@ -35,5 +35,10 @@ public class Article implements Searchable {
     @Override
     public String typeContent() {
         return "ARTICLE";
+    }
+
+    @Override
+    public void searchableName() {
+
     }
 }

@@ -1,7 +1,5 @@
 package org.skypro.skyshop.search;
 
-import java.util.Arrays;
-
 public class SearchEngine{
 
     private Searchable[] searchables;
@@ -18,7 +16,7 @@ public class SearchEngine{
         searchables[size++] = searchable;
     }
 
-    public String search(String searchText) {
+    public String[] search(String searchText) {
         int counter = 0;
         String[] result = new String[5];
         for (int i = 0; i < size; i++) {
@@ -27,7 +25,6 @@ public class SearchEngine{
                 counter++;
             }
         }
-        System.out.println(Arrays.toString(result));
-        return Arrays.toString(result);
+        return result;
     }
 }
