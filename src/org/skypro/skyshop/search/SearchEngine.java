@@ -16,12 +16,12 @@ public class SearchEngine{
         searchables[size++] = searchable;
     }
 
-    public String[] search(String searchText) {
+    public Searchable[] search(String searchText) {
         int counter = 0;
-        String[] result = new String[5];
+        Searchable[] result = new Searchable[5];
         for (int i = 0; i < size; i++) {
             if (searchables[i].searchTerm().toLowerCase().contains(searchText.toLowerCase())) {
-                result[counter] = searchables[i].searchTerm();
+                result[counter] = searchables[i];
                 counter++;
             }
         }
