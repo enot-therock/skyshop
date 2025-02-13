@@ -1,21 +1,23 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.Exception.BestResultNotFound;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.search.Article.Article;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 import org.skypro.skyshop.search.product.DiscountedProduct;
 import org.skypro.skyshop.search.product.FixPriceProduct;
+import org.skypro.skyshop.search.product.Product;
 import org.skypro.skyshop.search.product.SimpleProduct;
 
 import java.util.Arrays;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws BestResultNotFound{
 
         SimpleProduct product1 = new SimpleProduct("Торт", 598);
-        SimpleProduct product2 = new SimpleProduct("Мясо", 1246);
+        SimpleProduct product2 = new SimpleProduct("Мясо", 1296);
         SimpleProduct product3 = new SimpleProduct("Кофе", 813);
         SimpleProduct product4 = new SimpleProduct("Сыр", 567);
         SimpleProduct product5 = new SimpleProduct("Молоко", 81);
@@ -71,8 +73,8 @@ public class App {
         searchEngine.addSearchComponents(product10);
 
         Article article1 = new Article("Торт", "Жиры 20%, Белки 25%, Углеводы 55%");
-        Article article2 = new Article("Мясо", "Кофеин 4%, Эфирные масла 20%, Углеводы 50%, Аминокислоты 12%");
-        Article article3 = new Article("Кофе", "Жиры 12%, Белки 17%, Углеводы 69%");
+        Article article2 = new Article("Кофе", "Кофеин 4%, Эфирные масла 20%, Углеводы 50%, Аминокислоты 12%");
+        Article article3 = new Article("Мясо", "Жиры 12%, Белки 17%, Углеводы 69%");
 
         searchEngine.addSearchComponents(article1);
         searchEngine.addSearchComponents(article2);
@@ -87,7 +89,38 @@ public class App {
         searchEngine.search("ТОРТ");
         searchEngine.search("СнИкеРс");
 
-        System.out.println(Arrays.toString(searchEngine.search("ТоРт")));
+        System.out.println(Arrays.toString(searchEngine.search("Т")));
         System.out.println(Arrays.toString(searchEngine.search("СниКЕрс")));
+
+        try {
+            SimpleProduct product16 = new SimpleProduct("", 0);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Указанные значения productName или(и) price недопустимы");
+        }
+
+        try {
+            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Значение базовой цены указано неверно");
+        }
+
+        try {
+            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Процент скидки указан неверно");
+        }
+
+        System.out.println(searchEngine.getSearchTerm("о"));
+
+        try {
+            System.out.println(searchEngine.getSearchTerm("rrh"));
+        } catch (BestResultNotFound e) {
+            System.out.println("Запрашиваемого элемента не найдено");
+        }
+
+        System.out.println(searchEngine.getSearchTerm("rrh"));
     }
+
+
+
 }

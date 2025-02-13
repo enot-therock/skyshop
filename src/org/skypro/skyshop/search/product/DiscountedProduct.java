@@ -9,6 +9,12 @@ public class DiscountedProduct extends Product {
         super(productName);
         this.basePrice = basePrice;
         this.discount = discount;
+        if (basePrice < 1) {
+            throw new IllegalArgumentException("Указанная цена недействительна");
+        }
+        if (discount < 0 || discount > 100) {
+            throw new IllegalArgumentException("Указанная скидка неверна");
+        }
     }
 
     @Override
