@@ -95,19 +95,19 @@ public class App {
         try {
             SimpleProduct product16 = new SimpleProduct("", 0);
         } catch (IllegalArgumentException exception) {
-            System.out.println("Указанные значения productName или(и) price недопустимы");
+            System.out.println(exception.getMessage());
         }
 
         try {
             DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
         } catch (IllegalArgumentException exception) {
-            System.out.println("Значение базовой цены указано неверно");
+            System.out.println(exception.getMessage());
         }
 
         try {
             DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
         } catch (IllegalArgumentException exception) {
-            System.out.println("Процент скидки указан неверно");
+            System.out.println(exception.getMessage());
         }
 
         System.out.println(searchEngine.getSearchTerm("о"));
