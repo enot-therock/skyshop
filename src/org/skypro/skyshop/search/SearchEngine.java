@@ -2,32 +2,29 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.Exception.BestResultNotFound;
 
-public class SearchEngine {
+import java.util.ArrayList;
+import java.util.List;
 
-    private Searchable[] searchables;
-    private int size;
+public class SearchEngine<T extends Searchable> {
 
-    public SearchEngine(int size) {
-        this.searchables = new Searchable[size];
+    private final List<T> searchables;
+
+    public SearchEngine() {
+        this.searchables = new ArrayList<>();
     }
 
     public void addSearchComponents(Searchable searchable) {
-        if (size >= searchables.length) {
-            throw new IllegalArgumentException("список для поиска полон");
-        }
-        searchables[size++] = searchable;
+        searchables.add((T) searchable);
     }
 
-    public Searchable[] search(String searchText) {
-        int counter = 0;
-        Searchable[] result = new Searchable[5];
-        for (int i = 0; i < size; i++) {
-            if (searchables[i].searchTerm().toLowerCase().contains(searchText.toLowerCase())) {
-                result[counter] = searchables[i];
-                counter++;
+    public List<T> search(String searchText) {
+        List<Searchable> result = new ArrayList<>();
+        for (int i = 0; i < searchables.size(); i++) {
+            if (searchables.get(i).searchTerm().toLowerCase().contains(searchText.toLowerCase())) {
+                result.add(searchables.get(i));
             }
         }
-        return result;
+        return (List<T>) result;
     }
 
     public Searchable getSearchTerm(String search) throws BestResultNotFound {
@@ -35,13 +32,13 @@ public class SearchEngine {
         String string;
         int defaultIndex = 0;
         int searchIndex;
-        for (int i = 0; i < size; i++) {
-            string = searchables[i].searchTerm().toLowerCase();
+        for (int i = 0; i < searchables.size(); i++) {
+            string = searchables.get(i).searchTerm().toLowerCase();
             search = search.toLowerCase();
             searchIndex = searchIndex(string, search);
-            if (searchables[i] != null && searchIndex > defaultIndex) {
+            if (searchables.get(i) != null && searchIndex > defaultIndex) {
                 defaultIndex = searchIndex;
-                searchable = searchables[i];
+                searchable = searchables.get(i);
             }
             if (searchable == null) {
                 throw new BestResultNotFound("Элемента " + search + " не найдено");

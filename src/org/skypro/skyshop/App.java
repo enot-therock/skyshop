@@ -10,8 +10,6 @@ import org.skypro.skyshop.search.product.FixPriceProduct;
 import org.skypro.skyshop.search.product.Product;
 import org.skypro.skyshop.search.product.SimpleProduct;
 
-import java.util.Arrays;
-
 public class App {
 
     public static void main(String[] args) throws BestResultNotFound{
@@ -29,7 +27,7 @@ public class App {
 
         FixPriceProduct product15 = new FixPriceProduct("Сникерс");
 
-        ProductBasket productBasket = new ProductBasket();
+        ProductBasket<Product> productBasket = new ProductBasket<>();
 
         productBasket.addProduct(product1);
         productBasket.addProduct(product3);
@@ -37,8 +35,20 @@ public class App {
         productBasket.addProduct(product10);
         productBasket.addProduct(product15);
 
+        System.out.println("Демонстрация методов класса ProductBasket");
+        System.out.println();
 
-        //productBasket.addProduct(product6);
+        productBasket.printProductBasket();
+        System.out.println();
+
+        productBasket.deleteProductName("хлопья");
+        System.out.println();
+
+        productBasket.printProductBasket();
+        System.out.println();
+
+        productBasket.deleteProductName("Мясо");
+        System.out.println();
 
         productBasket.printProductBasket();
         System.out.println();
@@ -58,8 +68,9 @@ public class App {
         System.out.println();
 
         productBasket.searchProduct("торт");
+        System.out.println();
 
-        SearchEngine searchEngine = new SearchEngine(13);
+        SearchEngine<Searchable> searchEngine = new SearchEngine<>();
 
         searchEngine.addSearchComponents(product2);
         searchEngine.addSearchComponents(product4);
@@ -80,17 +91,26 @@ public class App {
         searchEngine.addSearchComponents(article2);
         searchEngine.addSearchComponents(article3);
 
+        System.out.println("Демонстрация методов класса SearchEngine");
+        System.out.println();
+
         System.out.println(article1.searchTerm());
         System.out.println(article1.typeContent());
         System.out.println(product2.searchTerm());
 
-        System.out.println();
+
         searchEngine.search("колбаса");
         searchEngine.search("ТОРТ");
         searchEngine.search("СнИкеРс");
+        System.out.println();
 
-        System.out.println(Arrays.toString(searchEngine.search("Т")));
-        System.out.println(Arrays.toString(searchEngine.search("СниКЕрс")));
+        System.out.println(searchEngine.search("Т"));
+        System.out.println();
+        System.out.println(searchEngine.search("СниКЕрс"));
+        System.out.println();
+
+        System.out.println("Демонстрация работы по Exceptions");
+        System.out.println();
 
         try {
             SimpleProduct product16 = new SimpleProduct("", 0);
@@ -120,7 +140,4 @@ public class App {
 
         System.out.println(searchEngine.getSearchTerm("rrh"));
     }
-
-
-
 }
