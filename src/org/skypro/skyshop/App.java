@@ -118,35 +118,35 @@ public class App {
         System.out.println(searchEngine.search("СниКЕрс"));
         System.out.println();
 
-//        System.out.println("Демонстрация работы по Exceptions");
-//        System.out.println();
-//
-//        try {
-//            SimpleProduct product16 = new SimpleProduct("", 0);
-//        } catch (IllegalArgumentException exception) {
-//            System.out.println(exception.getMessage());
-//        }
-//
-//        try {
-//            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
-//        } catch (IllegalArgumentException exception) {
-//            System.out.println(exception.getMessage());
-//        }
-//
-//        try {
-//            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
-//        } catch (IllegalArgumentException exception) {
-//            System.out.println(exception.getMessage());
-//        }
-//
-//        System.out.println(searchEngine.getSearchTerm("о"));
-//
-//        try {
-//            System.out.println(searchEngine.getSearchTerm("rrh"));
-//        } catch (BestResultNotFound e) {
-//            System.out.println("Запрашиваемого элемента не найдено");
-//        }
-//
-//        System.out.println(searchEngine.getSearchTerm("rrh"));
+        System.out.println("Демонстрация работы по Exceptions");
+        System.out.println();
+
+        try {
+            SimpleProduct product16 = new SimpleProduct("", 0);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        try {
+            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+        }
+
+        System.out.println(searchEngine.getSearchTerm("о"));
+
+        try {
+            System.out.println(searchEngine.getSearchTerm("rrh"));
+        } catch (BestResultNotFound e) {
+            System.out.println("Запрашиваемого элемента не найдено");
+        }
+
+        System.out.println(searchEngine.getSearchTerm("rrh"));
     }
 }
