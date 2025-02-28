@@ -10,6 +10,11 @@ import org.skypro.skyshop.search.product.FixPriceProduct;
 import org.skypro.skyshop.search.product.Product;
 import org.skypro.skyshop.search.product.SimpleProduct;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class App {
 
     public static void main(String[] args) throws BestResultNotFound{
@@ -34,6 +39,8 @@ public class App {
         productBasket.addProduct(product9);
         productBasket.addProduct(product10);
         productBasket.addProduct(product15);
+        productBasket.addProduct(product4);
+        productBasket.addProduct(product6);
 
         System.out.println("Демонстрация методов класса ProductBasket");
         System.out.println();
@@ -47,7 +54,7 @@ public class App {
         productBasket.printProductBasket();
         System.out.println();
 
-        productBasket.deleteProductName("Мясо");
+        productBasket.deleteProductName("сЫр");
         System.out.println();
 
         productBasket.printProductBasket();
@@ -98,6 +105,8 @@ public class App {
         System.out.println(article1.typeContent());
         System.out.println(product2.searchTerm());
 
+        System.out.println();
+
 
         searchEngine.search("колбаса");
         searchEngine.search("ТОРТ");
@@ -109,35 +118,35 @@ public class App {
         System.out.println(searchEngine.search("СниКЕрс"));
         System.out.println();
 
-        System.out.println("Демонстрация работы по Exceptions");
-        System.out.println();
-
-        try {
-            SimpleProduct product16 = new SimpleProduct("", 0);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        try {
-            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        try {
-            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        System.out.println(searchEngine.getSearchTerm("о"));
-
-        try {
-            System.out.println(searchEngine.getSearchTerm("rrh"));
-        } catch (BestResultNotFound e) {
-            System.out.println("Запрашиваемого элемента не найдено");
-        }
-
-        System.out.println(searchEngine.getSearchTerm("rrh"));
+//        System.out.println("Демонстрация работы по Exceptions");
+//        System.out.println();
+//
+//        try {
+//            SimpleProduct product16 = new SimpleProduct("", 0);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//
+//        try {
+//            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//
+//        try {
+//            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//
+//        System.out.println(searchEngine.getSearchTerm("о"));
+//
+//        try {
+//            System.out.println(searchEngine.getSearchTerm("rrh"));
+//        } catch (BestResultNotFound e) {
+//            System.out.println("Запрашиваемого элемента не найдено");
+//        }
+//
+//        System.out.println(searchEngine.getSearchTerm("rrh"));
     }
 }

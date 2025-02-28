@@ -2,6 +2,8 @@ package org.skypro.skyshop.search.product;
 
 import org.skypro.skyshop.search.Searchable;
 
+import java.util.ArrayList;
+
 public abstract class Product implements Searchable {
 
     private String productName;

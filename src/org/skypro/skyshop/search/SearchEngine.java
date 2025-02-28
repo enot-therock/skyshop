@@ -1,30 +1,32 @@
 package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.Exception.BestResultNotFound;
+import org.skypro.skyshop.search.product.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchEngine<T extends Searchable> {
-
-    private final List<T> searchables;
+    private final List<Searchable> searchableList;
+    private final Map<String, List<Searchable>> searchables;
 
     public SearchEngine() {
-        this.searchables = new ArrayList<>();
+        this.searchableList = new ArrayList<>();
+        this.searchables = new TreeMap<>();
     }
 
     public void addSearchComponents(Searchable searchable) {
-        searchables.add((T) searchable);
+        searchables.computeIfAbsent(searchable.searchableName(), k -> new ArrayList<>()).add(searchable);
     }
 
-    public List<T> search(String searchText) {
-        List<Searchable> result = new ArrayList<>();
-        for (int i = 0; i < searchables.size(); i++) {
-            if (searchables.get(i).searchTerm().toLowerCase().contains(searchText.toLowerCase())) {
-                result.add(searchables.get(i));
+    public Map<String, List<Searchable>> search(String searchText) {
+        Map<String, List<Searchable>> result = new TreeMap<>();
+        for (Map.Entry<String, List<Searchable>> search : searchables.entrySet()) {
+            if (search.getKey().equalsIgnoreCase(searchText)) {
+                System.out.println(search.getValue());
+                result.put(search.getKey(), search.getValue());
             }
         }
-        return (List<T>) result;
+        return result;
     }
 
     public Searchable getSearchTerm(String search) throws BestResultNotFound {
@@ -32,16 +34,19 @@ public class SearchEngine<T extends Searchable> {
         String string;
         int defaultIndex = 0;
         int searchIndex;
-        for (int i = 0; i < searchables.size(); i++) {
-            string = searchables.get(i).searchTerm().toLowerCase();
-            search = search.toLowerCase();
-            searchIndex = searchIndex(string, search);
-            if (searchables.get(i) != null && searchIndex > defaultIndex) {
-                defaultIndex = searchIndex;
-                searchable = searchables.get(i);
-            }
-            if (searchable == null) {
-                throw new BestResultNotFound("Элемента " + search + " не найдено");
+        for (List<Searchable> searchables1: searchables.values()) {
+            for (int i = 0; i < searchables1.size(); i++) {
+                string = searchables1.get(i).searchTerm().toLowerCase();
+                search = search.toLowerCase();
+                searchIndex = searchIndex(string, search);
+                if (searchables1.get(i) != null && searchIndex > defaultIndex) {
+                    defaultIndex = searchIndex;
+                    searchable = searchables1.get(i);
+                }
+                if (searchable == null) {
+                    throw new BestResultNotFound("Элемента " + search + " не найдено");
+                }
+
             }
         }
         return searchable;
@@ -61,4 +66,21 @@ public class SearchEngine<T extends Searchable> {
         return counter;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchEngine<?> that = (SearchEngine<?>) o;
+        return Objects.equals(searchableList, that.searchableList) && Objects.equals(searchables, that.searchables);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(searchableList, searchables);
+    }
+
+//    @Override
+//    public String toString() {
+//        return "Товар: " + searchables.keySet() + " Описание: " + searchables.values();
+//    }
 }

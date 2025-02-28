@@ -2,28 +2,30 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.search.product.Product;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket<T extends Product> {
-    private final List<Product> products;
+    private List<Product> productList;
+    private final Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.products = new ArrayList<>();
+        this.productList = new ArrayList<>();
+        this.products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        products.add(product);
+        products.computeIfAbsent(product.getProduct(), k -> new ArrayList<>()).add(product);
     }
 
     public int allCost() {
         int allCost = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i) == null) {
-                break;
+        for (List<Product> cost: products.values()) {
+            for (int i = 0; i < cost.size(); i++) {
+                if (cost.get(i) == null) {
+                    break;
+                }
+                allCost += cost.get(i).getPrice();
             }
-            allCost += products.get(i).getPrice();
         }
         return allCost;
     }
@@ -31,45 +33,51 @@ public class ProductBasket<T extends Product> {
     public void printProductBasket() {
         int counter = 0;
         int allCost = 0;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i) == null) {
-                throw new IllegalArgumentException("В корзине ничего нет");
+        for (List<Product> prod: products.values()) {
+            for (int i = 0; i < prod.size(); i++) {
+                if (prod.get(i) == null) {
+                    throw new IllegalArgumentException("В корзине ничего нет");
+                }
+                Product product = prod.get(i);
+                if (product.isSpecial()) {
+                    counter++;
+                }
+                allCost += product.getPrice();
             }
-            Product product = products.get(i);
-            if (product.isSpecial()) {
-                counter++;
-            }
-            System.out.println(product);
-            allCost += products.get(i).getPrice();
+        }
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
+            System.out.println("Товар - " + prod.getKey() + "; Описание - " + prod.getValue());
         }
         System.out.println("Итого: " + allCost);
         System.out.println("Специальных товаров: " + counter);
     }
 
-    public void searchProduct(String productName) {
-        boolean name = false;
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i) == null) {
+    public Map<String, List<Product>> searchProduct(String productName) {
+        Map<String, List<Product>> result = new HashMap<>();
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
+            if (prod.getKey() == null) {
                 break;
             }
-            if (products.get(i).getProduct().equalsIgnoreCase(productName)) {
-                name = true;
+            if (prod.getKey().equalsIgnoreCase(productName)) {
+                System.out.println("Искомый продукт: " + prod.getValue());
+                result.put(prod.getKey(), prod.getValue());
             }
         }
-        System.out.println(name);
+        return result;
     }
 
     public void deleteAll() {
             products.clear();
     }
 
-    public List<T> deleteProductName(String name) {
-        List<T> deleteProduct = new ArrayList<>();
-        Iterator<Product> productIterator = products.iterator();
+    public Map<String, List<Product>> deleteProductName(String name) {
+        Map<String, List<Product>> deleteProduct = new HashMap<>();
+
+        Iterator<Map.Entry<String, List<Product>>> productIterator = products.entrySet().iterator();
         while (productIterator.hasNext()) {
-            Product product = productIterator.next();
-            if (product.getProduct().toLowerCase().equals(name.toLowerCase())) {
-                deleteProduct.add((T) product);
+            Map.Entry<String, List<Product>> prod = productIterator.next();
+            if (prod.getKey().equalsIgnoreCase(name)) {
+                deleteProduct.put(prod.getKey(), prod.getValue());
                 productIterator.remove();
             }
         }
@@ -77,4 +85,16 @@ public class ProductBasket<T extends Product> {
         return deleteProduct;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBasket<?> that = (ProductBasket<?>) o;
+        return Objects.equals(productList, that.productList) && Objects.equals(products, that.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productList, products);
+    }
 }
