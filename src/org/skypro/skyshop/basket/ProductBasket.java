@@ -1,65 +1,101 @@
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.search.product.Product;
 
-public class ProductBasket {
+import java.util.*;
 
-    private Product[] products;
-    private int size;
+public class ProductBasket<T extends Product> {
+    private final Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.products = new Product[5];
+        this.products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        if (size >= products.length) {
-            throw new IllegalArgumentException("Невозможно добавить новый продукт");
-        }
-        products[size++] = product;
+        products.computeIfAbsent(product.getProduct().toLowerCase(), k -> new ArrayList<>()).add(product);
     }
 
     public int allCost() {
         int allCost = 0;
-        for (int i = 0; i < products.length; i++) {
-            if (products[i] == null) {
-                break;
+        for (List<Product> cost: products.values()) {
+            for (int i = 0; i < cost.size(); i++) {
+                if (cost.get(i) == null) {
+                    continue;
+                }
+                allCost += cost.get(i).getPrice();
             }
-            allCost += products[i].getCost();
         }
         return allCost;
     }
 
     public void printProductBasket() {
-        int allCost = 0;
-        for (int i = 0; i < size; i++) {
-            if (products[i] == null) {
-                throw new IllegalArgumentException("В корзине ничего нет");
-            }
-            Product product = products[i];
-            System.out.println(product);
-            allCost += products[i].getCost();
+        for (List<Product> prod: products.values()) {
+            System.out.println(prod);
         }
-        System.out.println("Итого: " + allCost);
+        System.out.println("Итого: " + allCost());
+        System.out.println("Специальных товаров: " + specialProduct());
     }
 
-    public void searchProduct(String productName) {
-        boolean name = false;
-        for (int i = 0; i < size; i++) {
-            if (products[i] == null) {
-                break;
-            }
-            if (products[i].getProduct().equalsIgnoreCase(productName)) {
-                name = true;
+    public int specialProduct() {
+        int counter = 0;
+        for (List<Product> prod: products.values()) {
+            for (int i = 0; i < prod.size(); i++) {
+                if (prod.get(i) == null) {
+                    continue;
+                }
+                Product product = prod.get(i);
+                if (product.isSpecial()) {
+                    counter++;
+                }
             }
         }
-        System.out.println(name);
+        return counter;
+    }
+
+    public List<Product> searchProduct(String productName) {
+        if (products.containsKey(productName.toLowerCase())) {
+            System.out.println("Искомый продукт: " + products.get(productName.toLowerCase()));
+        } else {
+            System.out.println("Искомого товара нет в корзине");
+        }
+        return products.get(productName.toLowerCase());
     }
 
     public void deleteAll() {
-        for (int i = 0; i < size; i++) {
-            products[i] = null;
-            size = 0;
-        }
+            products.clear();
     }
 
+    public Map<String, List<Product>> deleteProductName(String name) {
+        Map<String, List<Product>> deleteProduct = new HashMap<>();
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
+            if (prod.getKey().equalsIgnoreCase(name)) {
+                deleteProduct.put(prod.getKey(), prod.getValue());
+            }
+        }
+        products.remove(name.toLowerCase());
+        System.out.println("Удаленные товары: " + deleteProduct);
+        return deleteProduct;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBasket<?> that = (ProductBasket<?>) o;
+        return Objects.equals(products, that.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(products);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
+            str.append("Товар - ").append(prod.getKey()).append("; Описание - ").append(prod.getValue()).append("\n");
+        }
+        return str.toString();
+    }
 }
