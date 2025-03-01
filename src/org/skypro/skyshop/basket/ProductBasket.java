@@ -5,16 +5,14 @@ import org.skypro.skyshop.search.product.Product;
 import java.util.*;
 
 public class ProductBasket<T extends Product> {
-    private List<Product> productList;
     private final Map<String, List<Product>> products;
 
     public ProductBasket() {
-        this.productList = new ArrayList<>();
         this.products = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        products.computeIfAbsent(product.getProduct(), k -> new ArrayList<>()).add(product);
+        products.computeIfAbsent(product.getProduct().toLowerCase(), k -> new ArrayList<>()).add(product);
     }
 
     public int allCost() {
@@ -22,7 +20,7 @@ public class ProductBasket<T extends Product> {
         for (List<Product> cost: products.values()) {
             for (int i = 0; i < cost.size(); i++) {
                 if (cost.get(i) == null) {
-                    break;
+                    continue;
                 }
                 allCost += cost.get(i).getPrice();
             }
@@ -31,39 +29,36 @@ public class ProductBasket<T extends Product> {
     }
 
     public void printProductBasket() {
+        for (List<Product> prod: products.values()) {
+            System.out.println(prod);
+        }
+        System.out.println("Итого: " + allCost());
+        System.out.println("Специальных товаров: " + specialProduct());
+    }
+
+    public int specialProduct() {
         int counter = 0;
-        int allCost = 0;
         for (List<Product> prod: products.values()) {
             for (int i = 0; i < prod.size(); i++) {
                 if (prod.get(i) == null) {
-                    throw new IllegalArgumentException("В корзине ничего нет");
+                    continue;
                 }
                 Product product = prod.get(i);
                 if (product.isSpecial()) {
                     counter++;
                 }
-                allCost += product.getPrice();
             }
         }
-        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
-            System.out.println("Товар - " + prod.getKey() + "; Описание - " + prod.getValue());
-        }
-        System.out.println("Итого: " + allCost);
-        System.out.println("Специальных товаров: " + counter);
+        return counter;
     }
 
-    public Map<String, List<Product>> searchProduct(String productName) {
-        Map<String, List<Product>> result = new HashMap<>();
-        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
-            if (prod.getKey() == null) {
-                break;
-            }
-            if (prod.getKey().equalsIgnoreCase(productName)) {
-                System.out.println("Искомый продукт: " + prod.getValue());
-                result.put(prod.getKey(), prod.getValue());
-            }
+    public List<Product> searchProduct(String productName) {
+        if (products.containsKey(productName.toLowerCase())) {
+            System.out.println("Искомый продукт: " + products.get(productName.toLowerCase()));
+        } else {
+            System.out.println("Искомого товара нет в корзине");
         }
-        return result;
+        return products.get(productName.toLowerCase());
     }
 
     public void deleteAll() {
@@ -72,15 +67,12 @@ public class ProductBasket<T extends Product> {
 
     public Map<String, List<Product>> deleteProductName(String name) {
         Map<String, List<Product>> deleteProduct = new HashMap<>();
-
-        Iterator<Map.Entry<String, List<Product>>> productIterator = products.entrySet().iterator();
-        while (productIterator.hasNext()) {
-            Map.Entry<String, List<Product>> prod = productIterator.next();
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
             if (prod.getKey().equalsIgnoreCase(name)) {
                 deleteProduct.put(prod.getKey(), prod.getValue());
-                productIterator.remove();
             }
         }
+        products.remove(name.toLowerCase());
         System.out.println("Удаленные товары: " + deleteProduct);
         return deleteProduct;
     }
@@ -90,11 +82,20 @@ public class ProductBasket<T extends Product> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductBasket<?> that = (ProductBasket<?>) o;
-        return Objects.equals(productList, that.productList) && Objects.equals(products, that.products);
+        return Objects.equals(products, that.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productList, products);
+        return Objects.hash(products);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
+            str.append("Товар - ").append(prod.getKey()).append("; Описание - ").append(prod.getValue()).append("\n");
+        }
+        return str.toString();
     }
 }

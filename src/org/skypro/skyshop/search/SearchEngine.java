@@ -6,27 +6,23 @@ import org.skypro.skyshop.search.product.Product;
 import java.util.*;
 
 public class SearchEngine<T extends Searchable> {
-    private final List<Searchable> searchableList;
     private final Map<String, List<Searchable>> searchables;
 
     public SearchEngine() {
-        this.searchableList = new ArrayList<>();
         this.searchables = new TreeMap<>();
     }
 
     public void addSearchComponents(Searchable searchable) {
-        searchables.computeIfAbsent(searchable.searchableName(), k -> new ArrayList<>()).add(searchable);
+        searchables.computeIfAbsent(searchable.searchableName().toLowerCase(), k -> new ArrayList<>()).add(searchable);
     }
 
-    public Map<String, List<Searchable>> search(String searchText) {
-        Map<String, List<Searchable>> result = new TreeMap<>();
-        for (Map.Entry<String, List<Searchable>> search : searchables.entrySet()) {
-            if (search.getKey().equalsIgnoreCase(searchText)) {
-                System.out.println(search.getValue());
-                result.put(search.getKey(), search.getValue());
-            }
+    public List<Searchable> search(String searchText) {
+        if (searchables.containsKey(searchText.toLowerCase())) {
+            System.out.println("Искомый объект: " + searchables.get(searchText.toLowerCase()));
+        } else {
+            System.out.println("Искомого объекта нет");
         }
-        return result;
+        return searchables.get(searchText.toLowerCase());
     }
 
     public Searchable getSearchTerm(String search) throws BestResultNotFound {
@@ -71,16 +67,11 @@ public class SearchEngine<T extends Searchable> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SearchEngine<?> that = (SearchEngine<?>) o;
-        return Objects.equals(searchableList, that.searchableList) && Objects.equals(searchables, that.searchables);
+        return Objects.equals(searchables, that.searchables);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(searchableList, searchables);
+        return Objects.hash(searchables);
     }
-
-//    @Override
-//    public String toString() {
-//        return "Товар: " + searchables.keySet() + " Описание: " + searchables.values();
-//    }
 }

@@ -63,7 +63,7 @@ public class App {
         System.out.println("Общая стоимость корзины: " + productBasket.allCost());
         System.out.println();
 
-        productBasket.searchProduct("сникерс");
+        productBasket.searchProduct("сниКерс");
         System.out.println();
 
         productBasket.searchProduct("молоко");
@@ -113,9 +113,9 @@ public class App {
         searchEngine.search("СнИкеРс");
         System.out.println();
 
-        System.out.println(searchEngine.search("Т"));
+        searchEngine.search("Т");
         System.out.println();
-        System.out.println(searchEngine.search("СниКЕрс"));
+        searchEngine.search("СниКЕрс");
         System.out.println();
 
         System.out.println("Демонстрация работы по Exceptions");
