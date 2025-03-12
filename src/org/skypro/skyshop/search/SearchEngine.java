@@ -6,17 +6,17 @@ import org.skypro.skyshop.search.product.Product;
 import java.util.*;
 
 public class SearchEngine<T extends Searchable> {
-    private final Map<String, List<Searchable>> searchables;
+    private final Map<String, TreeSet<Searchable>> searchables;
 
     public SearchEngine() {
         this.searchables = new TreeMap<>();
     }
 
     public void addSearchComponents(Searchable searchable) {
-        searchables.computeIfAbsent(searchable.searchableName().toLowerCase(), k -> new ArrayList<>()).add(searchable);
+        searchables.computeIfAbsent(searchable.searchableName().toLowerCase(), k -> new TreeSet<>()).add(searchable);
     }
 
-    public List<Searchable> search(String searchText) {
+    public TreeSet<Searchable> search(String searchText) {
         if (searchables.containsKey(searchText.toLowerCase())) {
             System.out.println("Искомый объект: " + searchables.get(searchText.toLowerCase()));
         } else {
@@ -24,30 +24,6 @@ public class SearchEngine<T extends Searchable> {
         }
         return searchables.get(searchText.toLowerCase());
     }
-
-    public Searchable getSearchTerm(String search) throws BestResultNotFound {
-        Searchable searchable = null;
-        String string;
-        int defaultIndex = 0;
-        int searchIndex;
-        for (List<Searchable> searchables1: searchables.values()) {
-            for (int i = 0; i < searchables1.size(); i++) {
-                string = searchables1.get(i).searchTerm().toLowerCase();
-                search = search.toLowerCase();
-                searchIndex = searchIndex(string, search);
-                if (searchables1.get(i) != null && searchIndex > defaultIndex) {
-                    defaultIndex = searchIndex;
-                    searchable = searchables1.get(i);
-                }
-                if (searchable == null) {
-                    throw new BestResultNotFound("Элемента " + search + " не найдено");
-                }
-
-            }
-        }
-        return searchable;
-    }
-
 
     private int searchIndex (String string, String search){
         int counter = 0;

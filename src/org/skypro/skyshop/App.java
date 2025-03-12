@@ -93,10 +93,13 @@ public class App {
         Article article1 = new Article("Торт", "Жиры 20%, Белки 25%, Углеводы 55%");
         Article article2 = new Article("Кофе", "Кофеин 4%, Эфирные масла 20%, Углеводы 50%, Аминокислоты 12%");
         Article article3 = new Article("Мясо", "Жиры 12%, Белки 17%, Углеводы 69%");
+        Article article4 = new Article("Мясо-птицы", "Жиры 16%, Белки 13%, Углеводы 70%");
+
 
         searchEngine.addSearchComponents(article1);
         searchEngine.addSearchComponents(article2);
         searchEngine.addSearchComponents(article3);
+        searchEngine.addSearchComponents(article4);
 
         System.out.println("Демонстрация методов класса SearchEngine");
         System.out.println();
@@ -111,6 +114,7 @@ public class App {
         searchEngine.search("колбаса");
         searchEngine.search("ТОРТ");
         searchEngine.search("СнИкеРс");
+        searchEngine.search("мясо");
         System.out.println();
 
         searchEngine.search("Т");
@@ -118,35 +122,35 @@ public class App {
         searchEngine.search("СниКЕрс");
         System.out.println();
 
-        System.out.println("Демонстрация работы по Exceptions");
-        System.out.println();
+//        System.out.println("Демонстрация работы по Exceptions");
+//        System.out.println();
 
-        try {
-            SimpleProduct product16 = new SimpleProduct("", 0);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
+//        try {
+//            SimpleProduct product16 = new SimpleProduct("", 0);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//
+//        try {
+//            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
+//
+//        try {
+//            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
+//        } catch (IllegalArgumentException exception) {
+//            System.out.println(exception.getMessage());
+//        }
 
-        try {
-            DiscountedProduct product17 = new DiscountedProduct("Лёд", -1, 12);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        try {
-            DiscountedProduct product18 = new DiscountedProduct("Паприка", 17, 120);
-        } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-        }
-
-        System.out.println(searchEngine.getSearchTerm("о"));
-
-        try {
-            System.out.println(searchEngine.getSearchTerm("rrh"));
-        } catch (BestResultNotFound e) {
-            System.out.println("Запрашиваемого элемента не найдено");
-        }
-
-        System.out.println(searchEngine.getSearchTerm("rrh"));
+//        System.out.println(searchEngine.getSearchTerm("о"));
+//
+//        try {
+//            System.out.println(searchEngine.getSearchTerm("rrh"));
+//        } catch (BestResultNotFound e) {
+//            System.out.println("Запрашиваемого элемента не найдено");
+//        }
+//
+//        System.out.println(searchEngine.getSearchTerm("rrh"));
     }
 }

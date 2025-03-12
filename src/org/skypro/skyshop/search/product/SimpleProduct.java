@@ -1,6 +1,11 @@
 package org.skypro.skyshop.search.product;
 
-public class SimpleProduct extends Product {
+import org.skypro.skyshop.search.SearchComparator;
+import org.skypro.skyshop.search.Searchable;
+
+import java.util.Comparator;
+
+public class SimpleProduct extends Product, SearchComparator {
 
     protected int price;
 
@@ -25,5 +30,10 @@ public class SimpleProduct extends Product {
     @Override
     public boolean isSpecial() {
         return false;
+    }
+
+    @Override
+    public int compare(Searchable o1, Searchable o2) {
+        return super.compare(o1.searchableName(), o2.searchableName());
     }
 }
