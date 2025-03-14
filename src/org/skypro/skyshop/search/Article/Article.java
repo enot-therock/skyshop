@@ -1,11 +1,12 @@
 package org.skypro.skyshop.search.Article;
 
+import org.skypro.skyshop.search.SearchComparator;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.Comparator;
 import java.util.Objects;
 
-public class Article implements Searchable {
+public class Article extends SearchComparator implements Searchable {
 
     private final String nameArticle;
     private final String textArticle;
@@ -56,4 +57,8 @@ public class Article implements Searchable {
         return Objects.hashCode(nameArticle);
     }
 
+    @Override
+    public int compare(String nameArticle1, String nameArticle2) {
+        return super.compare(nameArticle1, nameArticle2);
+    }
 }

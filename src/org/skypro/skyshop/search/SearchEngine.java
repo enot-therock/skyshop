@@ -1,11 +1,8 @@
 package org.skypro.skyshop.search;
 
-import org.skypro.skyshop.Exception.BestResultNotFound;
-import org.skypro.skyshop.search.product.Product;
-
 import java.util.*;
 
-public class SearchEngine<T extends Searchable> {
+public class SearchEngine <T extends Searchable> {
     private final Map<String, TreeSet<Searchable>> searchables;
 
     public SearchEngine() {
@@ -18,7 +15,7 @@ public class SearchEngine<T extends Searchable> {
 
     public TreeSet<Searchable> search(String searchText) {
         if (searchables.containsKey(searchText.toLowerCase())) {
-            System.out.println("Искомый объект: " + searchables.get(searchText.toLowerCase()));
+            System.out.println("Искомый объект : " + searchables.get(searchText.toLowerCase()));
         } else {
             System.out.println("Искомого объекта нет");
         }
