@@ -1,5 +1,7 @@
 package org.skypro.skyshop.search;
 
+import com.sun.source.tree.Tree;
+
 import java.util.*;
 
 public class SearchEngine <T extends Searchable> {
@@ -14,12 +16,16 @@ public class SearchEngine <T extends Searchable> {
     }
 
     public TreeSet<Searchable> search(String searchText) {
-        if (searchables.containsKey(searchText.toLowerCase())) {
-            System.out.println("Искомый объект : " + searchables.get(searchText.toLowerCase()));
-        } else {
-            System.out.println("Искомого объекта нет");
+        TreeSet<Searchable> search = new TreeSet<>(new SearchComparator());
+        for (TreeSet<Searchable> set : searchables.values()) {
+            if (set.contains(searchText.toLowerCase())) {
+                //search.add(set.);
+                System.out.println("Искомый объект " + searchables.values());
+            } else {
+                System.out.println("Искомого объекта нет");
+            }
         }
-        return searchables.get(searchText.toLowerCase());
+        return search;
     }
 
     private int searchIndex (String string, String search){

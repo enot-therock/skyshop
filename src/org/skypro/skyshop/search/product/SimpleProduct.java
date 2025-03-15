@@ -1,11 +1,8 @@
 package org.skypro.skyshop.search.product;
 
-import org.skypro.skyshop.search.SearchComparator;
 import org.skypro.skyshop.search.Searchable;
 
-import java.util.Comparator;
-
-public class SimpleProduct extends Product implements Comparable {
+public class SimpleProduct extends Product implements Comparable<Searchable> {
 
     protected int price;
 
@@ -33,7 +30,7 @@ public class SimpleProduct extends Product implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public int compareTo(Searchable o) {
+        return this.searchableName().compareTo(o.searchableName());
     }
 }

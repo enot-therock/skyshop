@@ -2,7 +2,7 @@ package org.skypro.skyshop.search.product;
 
 import org.skypro.skyshop.search.Searchable;
 
-public class DiscountedProduct extends Product implements Comparable {
+public class DiscountedProduct extends Product implements Comparable<Searchable> {
 
     protected int basePrice;
     protected double discount;
@@ -35,7 +35,7 @@ public class DiscountedProduct extends Product implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Searchable o) {
         return 0;
     }
 }

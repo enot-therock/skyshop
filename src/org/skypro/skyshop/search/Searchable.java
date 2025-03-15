@@ -14,6 +14,5 @@ public interface Searchable {
     default String getStringRepresentation() {
         return "Имя " + searchTerm() + " объекта - тип " + typeContent() + " - объекта";
     }
-
 }
 

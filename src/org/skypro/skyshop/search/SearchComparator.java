@@ -2,13 +2,14 @@ package org.skypro.skyshop.search;
 
 import java.util.Comparator;
 
-public class SearchComparator implements Comparator<String> {
+public class SearchComparator implements Comparator<Searchable> {
     @Override
-    public int compare(String o1, String o2) {
-        if (Integer.compare(o1.length(), o2.length()) != 0) {
-            return o1.length() - o2.length();
+    public int compare(Searchable o1, Searchable o2) {
+        int length = Integer.compare(o2.searchableName().length(), o1.searchableName().length());
+        if (length == 0) {
+            return o1.searchableName().compareTo(o2.searchableName());
         } else {
-           return o1.compareTo(o2);
+            return length;
         }
     }
 }
