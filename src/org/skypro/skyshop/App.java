@@ -94,12 +94,14 @@ public class App {
         Article article2 = new Article("Кофе", "Кофеин 4%, Эфирные масла 20%, Углеводы 50%, Аминокислоты 12%");
         Article article3 = new Article("Мясо", "Жиры 12%, Белки 17%, Углеводы 69%");
         Article article4 = new Article("Мясо-птицы", "Жиры 16%, Белки 13%, Углеводы 70%");
+        Article article5 = new Article("Колбаса", "Жиры 16%, Белки 13%, Углеводы 70%");
 
 
         searchEngine.addSearchComponents(article1);
         searchEngine.addSearchComponents(article2);
         searchEngine.addSearchComponents(article3);
         searchEngine.addSearchComponents(article4);
+        searchEngine.addSearchComponents(article5);
 
         System.out.println("Демонстрация методов класса SearchEngine");
         System.out.println();
@@ -111,14 +113,11 @@ public class App {
         System.out.println();
 
 
-        searchEngine.search("колбаса");
+        searchEngine.search("Колбаса");
         searchEngine.search("ТОРТ");
-        searchEngine.search("СнИкеРс");
-        searchEngine.search("мясо");
-        System.out.println();
-
+        searchEngine.search("Сникерс");
+        searchEngine.search("Мясо");
         searchEngine.search("Т");
-        System.out.println();
         searchEngine.search("СниКЕрс");
         System.out.println();
 

@@ -1,28 +1,25 @@
 package org.skypro.skyshop.search;
 
-import com.sun.source.tree.Tree;
-
 import java.util.*;
 
 public class SearchEngine <T extends Searchable> {
-    private final Map<String, TreeSet<Searchable>> searchables;
+    private final Set<Searchable> searchables;
 
     public SearchEngine() {
-        this.searchables = new TreeMap<>();
+        this.searchables = new TreeSet<>();
     }
 
     public void addSearchComponents(Searchable searchable) {
-        searchables.computeIfAbsent(searchable.searchableName().toLowerCase(), k -> new TreeSet<>()).add(searchable);
+        searchables.add(searchable);
     }
 
-    public TreeSet<Searchable> search(String searchText) {
-        TreeSet<Searchable> search = new TreeSet<>(new SearchComparator());
-        for (TreeSet<Searchable> set : searchables.values()) {
-            if (set.contains(searchText.toLowerCase())) {
-                //search.add(set.);
-                System.out.println("Искомый объект " + searchables.values());
-            } else {
-                System.out.println("Искомого объекта нет");
+    public Set<Searchable> search(String searchText) {
+        String name = searchText.substring(0, 1).toUpperCase() + searchText.toLowerCase().substring(1);
+        Set<Searchable> search = new TreeSet<>(new SearchComparator());
+        for (Searchable searchable : searchables) {
+            if (searchable.searchTerm().contains(name)) {
+                search.add(searchable);
+                System.out.println("Искомый объект: " + search);
             }
         }
         return search;
