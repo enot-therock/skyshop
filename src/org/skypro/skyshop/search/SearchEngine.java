@@ -1,6 +1,9 @@
 package org.skypro.skyshop.search;
 
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchEngine <T extends Searchable> {
     private final Set<Searchable> searchables;
@@ -14,14 +17,10 @@ public class SearchEngine <T extends Searchable> {
     }
 
     public Set<Searchable> search(String searchText) {
-        String name = searchText.substring(0, 1).toUpperCase() + searchText.toLowerCase().substring(1);
-        Set<Searchable> search = new TreeSet<>(new SearchComparator());
-        for (Searchable searchable : searchables) {
-            if (searchable.searchTerm().contains(name)) {
-                search.add(searchable);
-                System.out.println("Искомый объект: " + search);
-            }
-        }
+        TreeSet<Searchable> search = searchables.stream()
+                .filter(s -> s.searchableName().equalsIgnoreCase(searchText))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchComparator())));
+        System.out.println("Искомый объект: = " + search);
         return search;
     }
 
@@ -50,4 +49,5 @@ public class SearchEngine <T extends Searchable> {
     public int hashCode() {
         return Objects.hash(searchables);
     }
+
 }

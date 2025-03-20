@@ -3,6 +3,7 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.search.product.Product;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductBasket<T extends Product> {
     private final Map<String, List<Product>> products;
@@ -16,40 +17,23 @@ public class ProductBasket<T extends Product> {
     }
 
     public int allCost() {
-        int allCost = 0;
-        for (List<Product> cost: products.values()) {
-            for (int i = 0; i < cost.size(); i++) {
-                if (cost.get(i) == null) {
-                    continue;
-                }
-                allCost += cost.get(i).getPrice();
-            }
-        }
-        return allCost;
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     public void printProductBasket() {
-        for (List<Product> prod: products.values()) {
-            System.out.println(prod);
-        }
+        products.values().forEach(System.out::println);
         System.out.println("Итого: " + allCost());
         System.out.println("Специальных товаров: " + specialProduct());
     }
 
-    public int specialProduct() {
-        int counter = 0;
-        for (List<Product> prod: products.values()) {
-            for (int i = 0; i < prod.size(); i++) {
-                if (prod.get(i) == null) {
-                    continue;
-                }
-                Product product = prod.get(i);
-                if (product.isSpecial()) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
+    public long specialProduct() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     public List<Product> searchProduct(String productName) {
@@ -66,12 +50,9 @@ public class ProductBasket<T extends Product> {
     }
 
     public Map<String, List<Product>> deleteProductName(String name) {
-        Map<String, List<Product>> deleteProduct = new HashMap<>();
-        for (Map.Entry<String, List<Product>> prod : products.entrySet()) {
-            if (prod.getKey().equalsIgnoreCase(name)) {
-                deleteProduct.put(prod.getKey(), prod.getValue());
-            }
-        }
+        Map<String, List<Product>> deleteProduct = products.entrySet().stream()
+                .filter(d -> d.getKey().equalsIgnoreCase(name))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         products.remove(name.toLowerCase());
         System.out.println("Удаленные товары: " + deleteProduct);
         return deleteProduct;
