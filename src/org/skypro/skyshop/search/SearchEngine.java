@@ -18,7 +18,7 @@ public class SearchEngine <T extends Searchable> {
 
     public Set<Searchable> search(String searchText) {
         TreeSet<Searchable> search = searchables.stream()
-                .filter(s -> s.searchableName().equalsIgnoreCase(searchText))
+                .filter(s -> s.searchableName().toLowerCase().contains(searchText.toLowerCase()))
                 .collect(Collectors.toCollection(() -> new TreeSet<>(new SearchComparator())));
         System.out.println("Искомый объект: = " + search);
         return search;
