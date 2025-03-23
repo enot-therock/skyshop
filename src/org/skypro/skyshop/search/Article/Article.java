@@ -57,6 +57,6 @@ public class Article implements Searchable, Comparable<Searchable> {
 
     @Override
     public int compareTo(Searchable o) {
-        return 0;
+        return this.searchableName().compareTo(o.searchableName());
     }
 }
